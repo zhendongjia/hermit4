@@ -1,0 +1,8 @@
+This is the directory for standard heliocentric code HERMIT4.
+Routines for direct integration of all bodies are in dir Direct,
+together with a test input file.
+To use this version, first compile standard code, then go to
+dir Direct and do 'gfortran -O3 -c *.f', followed by moving the
+object files to dir Hermit4 and do another 'make hermit4'.
+Note that the energy errors are slightly worse (with more steps)
+so a small reduction of ETA is recommended.

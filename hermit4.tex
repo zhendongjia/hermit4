@@ -1,0 +1,427 @@
+\documentclass[12pt]{article}
+\pagestyle{plain}
+\setlength {\topmargin} {-1.0cm}
+\setlength {\textwidth} {16.0cm}
+\setlength {\textheight} {22.5cm}
+\setlength {\oddsidemargin} {0cm}
+\begin{document}
+
+%  Useful newcommands
+%  @@@@@@@@@@@@@@@@@@
+
+\newcommand{\etaI}{\eta_{\scriptscriptstyle I}}
+\newcommand{\etaR}{\eta_{\scriptscriptstyle R}}
+\newcommand{\etaU}{\eta_{\scriptscriptstyle U}}
+\newcommand{\BH}{\scriptscriptstyle BH}
+\newcommand{\GR}{\scriptscriptstyle GR}
+\newcommand{\barrho}{\mathop{<\mskip -4mu\rho\mskip -4mu>}}
+\newcommand{\brho}{\mbox{\boldmath $\rho $}} %due to Sue Cowell 9/99
+\newcommand{\bom}{\mbox{\boldmath $\omega $}}
+\newcommand{\bsig}{\mbox{\boldmath $\sigma $}}
+\newcommand\pminus{\phantom{-}}
+\newcommand{\etal}{{\it et al.\ }}
+\newcommand{\cm}{c.m.\ }
+\newcommand{\ie}{i.e.\ }
+\newcommand{\cf}{cf.\ }
+\newcommand{\rn}[1]{(\ref{#1})}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\bean}{\begin{eqnarray*}}
+\newcommand{\eean}{\end{eqnarray*}}
+\newcommand{\bdis}{\begin{displaymath}}
+\newcommand{\edis}{\end{displaymath}}
+\newcommand{\half}{{\textstyle \frac{1}{2}}}
+\newcommand{\third}{{\textstyle \frac{1}{3}}}
+\newcommand{\quart}{{\textstyle \frac{1}{4}}}
+\newcommand{\sixth}{{\textstyle \frac{1}{6}}}
+\newcommand{\tenth}{{\textstyle \frac{1}{10}}}
+\newcommand{\twelfth}{{\textstyle \frac{1}{12}}}
+\newcommand{\sixteenth}{{\textstyle \frac{1}{16}}}
+\newcommand{\twothird}{{\textstyle \frac{2}{3}}}
+\newcommand{\eigth}{{\textstyle \frac{1}{8}}}
+\newcommand{\onetfour}{{\textstyle \frac{1}{24}}}
+\newcommand{\onehtw}{{\textstyle \frac{1}{120}}}
+\newcommand{\thalf}{{\textstyle \frac{3}{2}}}
+\newcommand{\fhalf}{{\textstyle \frac{5}{2}}}
+\newcommand{\fthird}{{\textstyle \frac{5}{3}}}
+\newcommand{\fat}[1]{{\bf #1}}
+\newcommand{\doo}[2]{{\frac{\partial #1}{\partial #2}}}
+\newcommand{\ex}{{\rm e}}
+\newcommand{\bc}{\begin{center}}
+\newcommand{\ec}{\end{center}}
+\newcommand{\hb}{\hfill\break}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\kms}{{\rm km}\,{\rm s}^{-1}}
+\newcommand{\pcc}{{\rm pc}^{-3}}
+\newcommand{\bt}{\begin{tabbing}}
+\newcommand{\et}{\end{tabbing}}
+\newcommand{\vinf}{v_\infty}
+\newcommand{\kmsec}{km\,${\rm s}^{-1}$}
+\newcommand{\kmsecc}{km\,${\rm s}^{-1}\:$}
+\def\ZZ#1{$\scriptstyle #1$}
+\def\plusplus{\raise 0.3ex\hbox{${\scriptstyle ++}$}{}}
+
+\def\AJ{{\it Astron. J.} }
+\def\APJ{{\it Astrophys. J.} }
+\def\ApJ{{\it Astrophys. J.} }
+\def\MN{{\it Mon. Not. R. Astron. Soc.} }
+\def\AA{{\it Astron. Astrophys.} }
+\def\CM{{\it Celes. Mech.} }
+\def\CMD{{\it Celes. Mech. Dyn. Ast.} }
+\def\PASJ{{\it Publ. Astron. Soc. Japan} }
+\def\SJA{S.J. Aarseth}
+\def\SAA{S.J. Aarseth }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Alison's definitions of bold \rho and \mu (three subscript levels)
+
+\font\elevenmib=cmmib10 at 11pt \skewchar\elevenmib='177
+\font\eightmib=cmmib10 at 8pt   \skewchar\eightmib='177
+\font\sixmib=cmmib10 at 6pt     \skewchar\sixmib='177
+%
+\newfam\mibfam
+\textfont\mibfam=\elevenmib
+\scriptfont\mibfam=\eightmib
+\scriptscriptfont\mibfam=\sixmib
+
+\def\hexnum#1{\ifnum#1<10 \number#1\else
+ \ifnum#1=10 A\else\ifnum#1=11 B\else\ifnum#1=12 C\else
+ \ifnum#1=13 D\else\ifnum#1=14 E\else\ifnum#1=15 F\fi\fi\fi\fi\fi\fi\fi}
+\def\mib{\hexnum\mibfam}
+
+\mathchardef\bmu="0\mib16
+
+%\setlength {\topmargin} {-1.0cm}
+%\setlength {\textwidth} {16.0cm}
+%\setlength {\textheight} {22.5cm}
+ 
+ 
+\centerline {\Large {\bf {HERMIT4 User Manual~~~~}}}
+\bigskip
+\centerline {\Large {Sverre Aarseth~~~}}
+\bigskip
+\centerline {\large {\tt Email: sverre@ast.cam.ac.uk}~~~~~}
+\bigskip
+\centerline {\large {Institute of Astronomy, University of Cambridge~~~~}}
+\medskip
+\bigskip
+\section{Introduction}
+
+This is a User Manual for {\tt HERMIT4}, a code that was developed
+during February 2004.
+It is a combination of two proven formulations which are studied by the
+Hermite method.
+Most particles are integrated by the time-symmetric scheme of
+Kokubo, Yoshinaga \& Makino [1998].
+In order to treat close two-body encounters more accurately, the so-called
+Burdet--Heggie regularization method is employed.
+For simplicity only one such encounter is treated.
+This means that the relative motion must be hyperbolic and any rare
+binaries with small periods are combined into one body as an inelastic
+collision.
+The time-symmetric scheme is based on the presence of one dominant
+central body which allows iteration of the two-body term, thereby reducing
+the systematic error considerably.
+Constant (quantized) time-steps for small perturbations also enhance the 
+numerical stability.
+However, it is still a brute-force method.
+Hence the {\tt CPU} requirements limit the maximum particle number to
+a few hundred, depending on the desired time interval.
+
+\section{Code structure}
+
+The whole code consists of some 2265 lines including comments and layout
+space.
+It is written in {\tt FORTRAN} and is F77 compliant but also compiles
+with Intel or F95 (ignore warning messages about non-standard expressions).
+There are about 32 routines altogether, with mnemonic names of maximum six
+characters (see Table 1).
+Likewise, all the {\tt FORTRAN} statements are in upper case while the
+comments are in lower case.
+The coding conforms to a strict style and layout for clarity.
+
+The main code relies on a general {\tt common} block called
+{\tt commonp.h} which contains a number of arrays of maximum size {\tt NMAX}
+defined as a parameter, as well as many useful scalars.
+This enables a calculation to be split into several stages by saving all
+the {\tt common} variables after a specified {\tt CPU} time (or by a
+`{\tt touch STOP}' facility at arbitrary times), followed by a restart.
+Except for some special situations, this gives rise to reproducible results
+which are essential for experimental purposes as well as problem
+investigation.
+
+The code consists of three main parts: input, output and integration, with
+the latter split into several routines dealing with two different methods.
+Since the choice is between integration of single particles or one close
+encounter, the decision-making is simplified and requires very little
+overheads.
+Several optional procedures are included for convenience (see routine
+{\tt INPUT} for definitions).
+
+\section{Getting started}
+
+Once the file {\tt hermit4.tar.Z} is downloaded and uncompressed, the routines
+are extracted by `{\tt tar xvf hermit4.tar}' and copied to directory
+{\tt Hermit4}.
+A test input template called {\tt input} is also included.
+
+Before compiling, check the {\tt FORTRAN} directives in the {\tt Makefile},
+\ie whether {\tt f77} or {\tt g77} and use the highest optimization level.
+Compile by the command `{\tt make hermit4}' which should produce the
+executable {\tt hermit4}.
+One possible reason for failure could be the {\tt CPU} timer function
+{\tt etime} in routine {\tt CPUTIM} which is system dependent.
+Any other complaints and strange run-time behaviour should be reported after
+making every effort to ascertain the problem.
+For frequent usage it is recommended to create separate working directories.
+It is also a good idea to save the original files when making changes.
+
+To start a test run, place the executable and a template input file
+{\tt input} in one directory and type the command
+`{\tt hermit4 $<$ input $>$ output \&}'.
+Although the results are machine- and compiler-dependent, it is expected that
+the run will finish normally.
+
+The restart facility can be tested in the following way.
+First specify option \#1 = 1 at input time.
+This will ensure a {\tt common} save on unit {\tt fort.1} if the specified
+{\tt CPU} time is exceeded or {\tt TIME $>=$ TCRIT}, with {\tt TCRIT} given
+in the input file.
+The calculation can then be continued from the {\tt common} save by
+`{\tt hermit4 $<$ rs $>$} output2 \&',
+using the restart input file {\tt rs} containing `{\tt KSTART TCOMP}'.
+Here {\tt KSTART = 1} denotes a new run (followed by the required input)
+or $= 2$ for standard restart, and {\tt TCOMP} is the {\tt CPU} time in
+minutes.
+If the calculation is terminated at {\tt TIME = TCRIT} with \#2 = 2, 
+{\tt fort.2} must be copied to {\tt fort.1} before the restart, in which
+case a new value of {\tt TCRIT} needs to be prescribed.
+Also note the possibility of reading some new parameters at restart if
+{\tt KSTART $>$ 2}.
+In the current version only one option can be changed but this can readily
+be generalized.
+
+\section{Input parameters}
+
+A standard input file consists of four lines defining the {\tt CPU} time,
+membership, dimensionless time-step factor {\tt ETA}, options and two-body
+regularization parameters.
+The overall accuracy is controlled by {\tt ETA}, which enters the time-step
+criterion in a square root.
+The appropriate choice depends on many factors and is best decided
+after extensive testing but for practical work a value around 0.003 seems
+adequate.
+Likewise, the options can be selected by consulting routine {\tt INPUT}.
+Hence only a few values need to be changed in the input template once the
+first calculation has been performed.
+
+The question of the initial particle distribution must be decided by the
+user and only a few light bodies have been included for code testing
+purposes.
+It is recommended to generate initial masses, coordinates and velocities
+by a separate program, to be read in by routine {\tt DATA}.
+Note that the calculations are performed in heliocentric coordinates,
+with unit mass assumed for the massive central body.
+The code is not suitable for studying high eccentricities because the
+indirect terms may be large, giving rise to unfavourable fluctuations.
+For central distances well outside the unit length, ensure that the
+maximum time-step {\tt DTMAX} (set in {\tt DATA}) is sufficiently large.
+
+Input parameters for regularization should be consistent with the
+particle distribution.
+Thus the proper value of the close encounter time-step, {\tt DTMIN},
+should match the critical two-body separation, {\tt RMIN}.
+Because the solar perturbation also plays a role (and its effect is
+included), it is recommended to use a conservative value of {\tt RMIN}
+much smaller than the Hill (or Roche) radius.
+Since most encounters treated will be hyperbolic, the choice of the
+regularized time-step parameter {\tt ETAU} is less important.
+For a binary, there are $2 \pi/${\tt ETAU} steps per orbit, while a
+constant {\tt DTAU} determined at {\tt R = RMIN} is appropriate for
+hyperbolic motion.
+In practice, the regularization step counter should be much less than
+the number of standard integration steps.
+
+Since planetary systems are intended, the output time interval and
+termination time, {\tt DELTAT} and {\tt TCRIT}, are specified in years
+as input.
+Scaling the time to other systems, such as a planet with satellites,
+can readily be made in terms of the square root of the solar mass
+ratio.
+
+The code allows for integration of an additional component of mass-less
+particles.
+This is achieved by first allocating {\tt NMASS} massive planetesimals 
+in the sequential arrays, followed by {\tt N - NMASS} particles of
+zero mass.
+Hence all particles are advanced in the same way, with the force
+summation restricted to {\tt NMASS}.
+At present, {\tt NMASS = N} and this feature has not been fully tested.
+
+\section{Implementation}
+
+The integration of single particles employs the time-symmetric Hermite
+block-step scheme [Kokubo \etal 1998].
+At each cycle, a list of particles due to be advanced is determined.
+The perturbations due to other planetesimals is evaluated separately
+from the dominant two-body term.
+This allows an extra iteration after the corrector has been applied which
+results in a significant accuracy gain (as can be seen by suppressing
+the iteration loop).
+
+Close encounters are characterized by small time-steps.
+A search is therefore made for the dominant neighbour if the time-step is
+below {\tt DTMIN}.
+The candidate particle is accepted if {\tt R $<$ RMIN} and the relative velocity
+is negative.
+Masses, coordinates and velocities for the two particles are then placed in
+the two first locations of the respective arrays.
+Relevant quantities for the new pair are initialized according to the equations
+of motion [cf. Aarseth 2003] and the centre of mass (c.m.) is introduced as a
+fictitious particle at location {\tt NTOT = N + 1}.
+Finally, the force polynomial and time-step for the c.m. are evaluated in
+the single particle approximation with reduced time-step.
+
+The subsequent integration of the c.m. particle is formally similar to that
+of single particles, except that the force is obtained by vectorial
+summation over the components unless the c.m. approximation applies.
+Note that since heliocentric coordinates are used, the so-called indirect
+force terms must be included in all the equations of motion.
+Conversely, the force on single particles due to a regularized pair is
+treated more carefully within a factor ($\simeq 100$) of the two-body
+separation.
+This entails inverting the regularized time interval by a Taylor series
+expansion and transforming to physical coordinates and velocities before
+summing over the individual components.
+Hence the direct force loop starts at {\tt IFIRST = 2*NPAIRS + 1},
+where {\tt NPAIRS = 1} during regularization, in which case the
+corresponding contribution is added afterwards.
+
+The equations of motion for two-body regularization are initialized by
+boot-strapping, yielding explicit derivatives and also advanced by
+the Hermite integration scheme.
+Each regularized time-step is converted to physical units by a high-order
+Taylor series based on known coefficients.
+Hyperbolic regularizations are terminated when the initial separation is
+exceeded.
+In order to improve the accuracy and permit larger new quantized time-steps,
+the relative motion is advanced up to the end of the next block-step.
+This is followed by standard initialization of polynomials and time-steps
+for both components.
+
+Collisions are defined by {\tt R $<$ RCOLL}, where {\tt RCOLL} is currently
+defined by a data statement in routine {\tt BHINT} (but can readily be
+included as input, provided it is added in {\tt commonp.h}).
+For practical reasons, the implementation of a collision (option \#7) is
+again delayed until the end of the block-step, leaving the c.m. as a new
+particle after removal of the components.
+
+Particles are removed (option \#9) from the calculation at output time for
+two different conditions.
+This occurs if the eccentricity exceeds a critical value (defined by
+{\tt ECRIT} in routine {\tt OUTPUT}) and the central distance is suitably
+large (\ie {\tt RESC}) or the orbital eccentricity is less than 1.
+The latter case deals with sun-grazing orbits which would otherwise need
+many small time-steps.
+Other criteria may be introduced to suit the requirements.
+
+Eccentric binaries are treated as close encounters in the pericentre region.
+However, in order to restrict the treatment to just one regularization for
+simplicity, the components of binaries with period below {\tt TMERGE}
+(in days, defined in routine {\tt BHINT}) are combined inelastically as
+for physical collisions.
+Note that the critical period must at least be large enough to include a
+circular binary of semi-major axis {\tt RMIN}, otherwise an inconsistency
+may arise.
+In fact, this requirement needs to be satisfied by a considerable margin
+in order to handle hyperbolic encounters at the appropriate times.
+
+Note that the calculation can be terminated at any time by typing
+`touch STOP' whereupon a {\tt common} save will occur on {\tt fort.1},
+from which a restart can be made.
+
+
+\section*{References}
+
+\medskip
+\noindent
+Aarseth, S.J. [2003], {\it Gravitational N-Body Simulations}
+(Cambridge University Press).
+
+\medskip
+\noindent
+Burdet, C.A. [1967], `Regularization of the two-body problem',
+{\it Z. Angew. Math. Phys.} {\bf 18}, 434--438.
+
+\medskip
+\noindent
+Heggie, D.C. [1973], `Regularization using a time-transformation only',
+in {\it Recent Advances in Dynamical Astronomy}, ed. B.D. Tapley \&
+V. Szebehely (Reidel, Dordrecht), 34--37.
+
+\medskip
+\noindent
+Kokubo, E., Yoshinaga, K. \& Makino, J. [1998], `On a time-symmetric
+Hermite integrator for planetary N-body simulation',
+\MN {\bf 297}, 1067--1072.
+
+\newpage
+\bigskip
+\section{Appendix}
+Table 1 contains a list of all the subroutines, the main calling structure
+and a brief description of their purpose.
+The subroutine names are constructed in analogy with the large $N$-body
+codes.
+
+% \newpage
+\begin{table}[h]
+\vspace*{-5mm}
+\centering
+\caption{{\it Subroutine definitions.}}
+\label{routines}
+\begin{tabular}{lll}
+\hline\hline
+\multicolumn{1}{l}{Routine} &
+\multicolumn{1}{l}{Called by} &
+\multicolumn{1}{l}{Description} \\
+\hline\hline
+{\tt BHINIT} & {\tt BHREG} &Initialization of two-body regularization. \\
+{\tt BHINT}  & {\tt INTGRT} &Integration of two-body motion. \\
+{\tt BHLIST} & {\tt BHINIT} &Perturber selection. \\
+{\tt BHPERT} & {\tt BHINIT} \& BHINT &Perturbing forces. \\
+{\tt BHREG}  & {\tt HERMIT4} &New Burdet-Heggie regularization. \\
+{\tt BHTERM} & {\tt HERMIT4} &Termination of regularization. \\
+{\tt BLOCK}  & &Block data initialization. \\
+{\tt BODIES} & {\tt OUTPUT} &Output of single particles and binaries. \\
+{\tt CMF}    & {\tt NBINT}  &Force on c.m. particle. \\
+{\tt CPUTIM} & {\tt INTGRT} \& {\tt OUTPUT} &Elapsed {\tt CPU} time in minutes. \\
+{\tt DATA}   & {\tt START}  &Generation of initial conditions. \\
+{\tt ENERGY} & {\tt OUTPUT} \& {\tt BHTERM} &Evaluation of the total energy. \\
+{\tt FPERT}  & {\tt SEARCH} &Perturbing force on dominant bodies. \\
+{\tt FPOLY1} & {\tt START}  \& {\tt BHINIT} &Initialization of force polynomial. \\
+{\tt HERMIT4} & &Master routine. \\
+{\tt IBLOCK} & {\tt START} &Initialization of block steps. \\
+{\tt INPUT}  & {\tt START} &Parameter input. \\
+{\tt INTGRT} & {\tt HERMIT4} &Main integrator flow control. \\
+{\tt MYDUMP} & {\tt INTGRT} \& {\tt OUTPUT} &{\tt COMMON} save or read. \\
+{\tt NBINT}  & {\tt INTGRT} &N-body integration with iteration. \\
+{\tt OUTPUT} & {\tt HERMIT4} &Energy check, output and escape removal. \\
+{\tt RAN2}   & {\tt DATA}   &Random number generator. \\
+{\tt REMOVE} & {\tt BHINT} \& {\tt OUTPUT} &Particle removal. \\
+{\tt RESOLV} & {\tt BHINT} \& {\tt NBINT}  &Two-body coordinates and velocities. \\
+{\tt SEARCH} & {\tt NBINT}  &Close encounter search. \\
+{\tt START}  & {\tt HERMIT4} &Initialization of data and polynomials. \\
+{\tt STEPI}  & {\tt NBINT}  &Fast time-step expression (option \#5). \\
+{\tt STEPK}  & {\tt STEPS}  &Truncation to commensurate block-step. \\
+{\tt STEPS}  & {\tt START} \& {\tt BHINIT} &Initialization of time-steps. \\
+{\tt TSTEP}  & {\tt NBINT}  &Standard time-step criterion. \\
+{\tt XVPRED} & {\tt OUTPUT} \& {\tt BHINT} &Prediction of coordinates and velocities. \\
+{\tt ZERO}   & {\tt START}  &Initialization of global scalars. \\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\end{document}

@@ -1,0 +1,6 @@
+*.[oa]
+hermit4
+*~
+H4TEST
+.make.state
+runfile/
