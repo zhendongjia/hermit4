@@ -9,7 +9,7 @@
       REAL*8  RP(3),RPDOT(3)
       LOGICAL ITERM,ICOLL
 *       Define collision distance and merged binary period (days).
-      DATA  RCOLL,TMERGE /1.0D-03,10.0/
+      DATA  RCOLL,TMERGE /3.0D-04,10.0/
 *
 *
 *       Define logical variables for termination and collision at TBLOCK.

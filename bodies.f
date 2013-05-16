@@ -13,7 +13,8 @@
       DO 40 I = 1,NMASS
           IF (KZ(4).EQ.1) THEN
               WRITE (6,20)  NAME(I), (X(K,I),K=1,3), (XDOT(K,I),K=1,3)
-   20         FORMAT (' BODIES    NAM X XD ',I5,3F8.3,2X,3F7.2)
+   20         FORMAT (' BODIES    NAM X XD ',
+     &             I5,2X,F15.3,2X,F15.3,2X,F15.3,2X,3F7.2)
               GO TO 40
           END IF
           JMIN = 0

@@ -1,14 +1,15 @@
 *       common6.
 *       -------
 *
-      PARAMETER (NMAX=100)
+      PARAMETER (NMAX=1000)
       IMPLICIT REAL*8  (A-H,O-Z)
 *
       COMMON/NBODY/  X(3,NMAX),X0(3,NMAX),X0DOT(3,NMAX),F(3,NMAX),
      &               FDOT(3,NMAX),BODY(NMAX),XDOT(3,NMAX),D1(3,NMAX),
      &               D2(3,NMAX),D3(3,NMAX),STEP(NMAX),T0(NMAX),
      &               N,NMASS,NAME(NMAX),KZ(10),NSTEPS,NTIMER,NBLOCK,
-     &               IDUM1,NDUM(4)
+     &               IDUM1,NDUM(4), G_P, G_D, T_DEP, R_EDGE, DENS_ORI,
+     &               DENS_P, T_TIDAL1(NMAX), T_TIDAL2(NMAX)
 *
       COMMON/PARAMS/ CPU,CPU0,CPUTOT,ETA,DELTAT,TPRINT,TCRIT,QE,
      &               TWOPI,ONE3,ONE6,ONE9,ONE12,
@@ -22,6 +23,6 @@
      &               TDOT2,TDOT3,TDOT4,RR0,GAMMA
 *
       COMMON/BHNAME/ NTOT,NZERO,NPAIRS,IFIRST,ICOMP,JCOMP,IPHASE,
-     &               NSTEPU,NKSTRY,LIST(100),JLIST(100)
+     &               NSTEPU,NKSTRY,LIST(NMAX),JLIST(NMAX)
 *
       COMMON/BLOCKS/ TPREV,TBLOCK,DTK(40),TNEXT(NMAX)

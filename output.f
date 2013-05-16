@@ -6,6 +6,7 @@
 *
       INCLUDE 'commonp.h'
       REAL*8  XS(3),XSD(3),SEMI(NMAX),ECC(NMAX),A(4)
+      REAL*8  TA_F,W_F,W
       DATA ECRIT,RESC /0.99D0,5.0D0/
 *
 *
@@ -76,7 +77,7 @@
 *
 *       Print diagnostic information.
       WRITE (6,30)  TIME/TWOPI, NSTEPS, NSTEPU, BE(3), DE, AZ
-   30 FORMAT (/,' YRS =',1P,E9.1,'  # =',0P,I10,I8,'  E =',F10.6,
+   30 FORMAT (/,' YRS ='F20.5,'  # =',0P,I10,I8,'  E =',F10.6,
      &          '  DE =',1P,E10.2,'  AZ =',0P,F12.8)
    40 IESC = 0
 *     IF (KZ(6).GT.0) THEN
@@ -112,8 +113,15 @@
           END IF
 *       Include optional output of elements.
           IF (KZ(6).GT.0.AND.IESC.EQ.0.AND.STEP(I).GT.20.0*DTMIN) THEN
-              WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I)
-   48         FORMAT (' ORBIT    I NAM ECC R A S ',2I4,3F9.4,1P,E10.2)
+             W_F = 0
+             TA_F = 0
+             W = GET_PRECESSION(X(:,I), XDOT(:,I), SEMI(I), ECC(I),
+     &            W_F, TA_F)
+             WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
+     &            W, W_F, TA_F, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
+     &            T_TIDAL1(I), T_TIDAL2(I)
+   48         FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F15.4, 2X,
+     &            F15.4, 2X, F15.4, 1P, E10.2, 0P, 3F15.3, 6E15.3)
           END IF
    50     CONTINUE
 *     END IF

@@ -17,6 +17,7 @@
       RJMIN2 = 1.0
       DO 6 J = IFIRST,NMASS
           IF (J.EQ.I.OR.STEP(J).GT.DTMIN) GO TO 6
+          IF (BODY(J).LT.1E-6) GO TO 6
           A1 = X(1,J) - X(1,I)
           A2 = X(2,J) - X(2,I)
           A3 = X(3,J) - X(3,I)
