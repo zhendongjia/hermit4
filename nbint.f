@@ -63,6 +63,7 @@
 *       Obtain force & derivative from non-zero mass particles.
       DO 10 J = IFIRST,NMASS
           IF (J.EQ.I) GO TO 8
+          IF (BODY(J).LT.1E-6) GO TO 10
           A1 = X(1,J) - XI(1)
           A2 = X(2,J) - XI(2)
           A3 = X(3,J) - XI(3)
@@ -130,6 +131,7 @@
           FDN(3) = FDN(3) + (DV(3) - A3*DRDV)*DR3I
 *       Include indirect terms with option #3.
    32     IF (KZ(3).EQ.0) GO TO 35
+          IF (BODY(J).LT.1E-6) GO TO 35
           XJ = X(1,J)
           YJ = X(2,J)
           ZJ = X(3,J)
