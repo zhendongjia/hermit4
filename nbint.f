@@ -153,6 +153,9 @@
               FIRR(K) = FIN(K) - RIN3*XI(K)
               FD(K) = FDN(K) - (XIDOT(K) - RD*XI(K))*RIN3
    42     CONTINUE
+*       Add the tidal force by gas disk
+        IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.2)
+     &         CALL DAMPING(XI, XIDOT, FIN, FDN)
 *
 *       Include the corrector after first or second iteration.
           DO 45 K = 1,3

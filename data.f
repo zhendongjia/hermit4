@@ -12,6 +12,12 @@
       DO 1 I = 1,N
           READ (5,*)  BODY(I), (X(K,I),K=1,3), (XDOT(K,I),K=1,3)
     1 CONTINUE
+
+*       Read parameters about tidal force by gas disk
+      READ (5,*) G_D, DENS_ORI, DENS_P, T_TIDAL1, T_TIDAL2
+      WRITE (6,5) G_D, DENS_ORI, DENS_P, T_TIDAL1, T_TIDAL2
+ 5    FORMAT (/, 2X, 1P, 6E10.1)
+
 *
 *       Initialize the portable random number generator (range: 0 to 1).
       KDUM = -1

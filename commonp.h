@@ -8,7 +8,8 @@
      &               FDOT(3,NMAX),BODY(NMAX),XDOT(3,NMAX),D1(3,NMAX),
      &               D2(3,NMAX),D3(3,NMAX),STEP(NMAX),T0(NMAX),
      &               N,NMASS,NAME(NMAX),KZ(10),NSTEPS,NTIMER,NBLOCK,
-     &               IDUM1,NDUM(4)
+     &               IDUM1,NDUM(4), G_D, DENS_ORI, DENS_P,
+     &               T_TIDAL1(NMAX), T_TIDAL2(NMAX)
 *
       COMMON/PARAMS/ CPU,CPU0,CPUTOT,ETA,DELTAT,TPRINT,TCRIT,QE,
      &               TWOPI,ONE3,ONE6,ONE9,ONE12,
