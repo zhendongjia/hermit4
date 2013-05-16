@@ -17,7 +17,7 @@ hermit4:  $(OBJECTS)
 	$(FC) $(FFLAGS) $(OBJECTS) -o hermit4
  
 clean:
-	rm -f *.o
+	rm -f $(OBJECTS) hermit4
 
 print:
 	@- \rm -f HERMIT4.TEXT
