@@ -4,3 +4,7 @@ hermit4
 H4TEST
 .make.state
 runfile/
+.DS_Store
+*.bak
+*.orig
+\#*\#
