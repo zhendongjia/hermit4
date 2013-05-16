@@ -4,7 +4,7 @@
 *       COMMON save or read.
 *       --------------------
 *
-      PARAMETER  (NMAX=1000,NA=65*NMAX+26,NP=2*NMAX+84)
+      PARAMETER  (NMAX=1000,NA=65*NMAX+32,NP=2*NMAX+84)
       REAL*4  A,E,F,P
       INTEGER  IR,NAME
 *

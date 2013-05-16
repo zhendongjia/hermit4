@@ -7,7 +7,7 @@
       INCLUDE 'commonp.h'
       PARAMETER  (ONE24=1.0/24.0D0)
       REAL*8  XI(3),XIDOT(3),FIRR(3),FD(3),DV(3),FIN(3),FDN(3),
-     &        X0T(3),V0T(3),AT3(3),BT2(3)
+     &        X0T(3),V0T(3),AT3(3),BT2(3), DENS0, UNIT_EX
       SAVE IPLOT
       DATA IPLOT /0/
 *
@@ -35,6 +35,9 @@
       DT025 = 0.25*DT
       DT02 = 0.2*DT
       T0(I) = TIME
+      UNIT_EX=1.125D-7
+      DENS0=DENS_ORI*UNIT_EX
+
 *
 *       Predict body #I to order F3DOT and initialize scalars.
       DO 5 K = 1,3
@@ -53,6 +56,9 @@
 *       Add indirect force due to body #I.
           GO TO 32
       END IF
+*
+*       Add gas disk gravity
+      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIN,FDN,DENS0)
 *
 *       Obtain force & derivative from non-zero mass particles.
       DO 10 J = IFIRST,NMASS
