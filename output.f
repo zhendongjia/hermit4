@@ -77,7 +77,7 @@
 *
 *       Print diagnostic information.
       WRITE (6,30)  TIME/TWOPI, NSTEPS, NSTEPU, BE(3), DE, AZ
-   30 FORMAT (/,' YRS =',1P,E9.1,'  # =',0P,I10,I8,'  E =',F10.6,
+   30 FORMAT (/,' YRS ='F20.5,'  # =',0P,I10,I8,'  E =',F10.6,
      &          '  DE =',1P,E10.2,'  AZ =',0P,F12.8)
    40 IESC = 0
 *     IF (KZ(6).GT.0) THEN
