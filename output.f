@@ -119,9 +119,9 @@
      &            W_F, TA_F)
              WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
      &            W, W_F, TA_F, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
-     &            T_TIDAL1(I), T_TIDAL2(I)
+     &            T_TIDAL1(I), T_TIDAL2(I), RADIUS(I)*1.5E8, BODY(I) 
    48         FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F15.4, 2X,
-     &            F15.4, 2X, F15.4, 1P, E10.2, 0P, 3F15.3, 6E15.3)
+     &            F15.4, 2X, F15.4, 1P, E10.2, 0P, 3F15.3, 8E10.1)
           END IF
    50     CONTINUE
 *     END IF

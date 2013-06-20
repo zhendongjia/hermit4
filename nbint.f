@@ -7,7 +7,7 @@
       INCLUDE 'commonp.h'
       PARAMETER  (ONE24=1.0/24.0D0)
       REAL*8  XI(3),XIDOT(3),FIRR(3),FD(3),DV(3),FIN(3),FDN(3),
-     &        X0T(3),V0T(3),AT3(3),BT2(3), DENS0, UNIT_EX
+     &        X0T(3),V0T(3),AT3(3),BT2(3), GCM2_MAU2, GCM3_MAU3
       SAVE IPLOT
       DATA IPLOT /0/
 *
@@ -35,9 +35,6 @@
       DT025 = 0.25*DT
       DT02 = 0.2*DT
       T0(I) = TIME
-      UNIT_EX=1.125D-7
-      DENS0=DENS_ORI*UNIT_EX
-
 *
 *       Predict body #I to order F3DOT and initialize scalars.
       DO 5 K = 1,3
@@ -58,7 +55,11 @@
       END IF
 *
 *       Add gas disk gravity
-      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIN,FDN,DENS0)
+      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIN,FDN)
+*
+*       Add the tidal force by gas disk
+        IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.R_IN)
+     &         CALL DAMPING(XI, XIDOT, FIN, FDN, I)
 *
 *       Obtain force & derivative from non-zero mass particles.
       DO 10 J = IFIRST,NMASS
@@ -161,9 +162,7 @@
               FIRR(K) = FIN(K) - RIN3*XI(K)
               FD(K) = FDN(K) - (XIDOT(K) - RD*XI(K))*RIN3
    42     CONTINUE
-*       Add the tidal force by gas disk
-        IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.2)
-     &         CALL DAMPING(XI, XIDOT, FIN, FDN)
+
 *
 *       Include the corrector after first or second iteration.
           DO 45 K = 1,3

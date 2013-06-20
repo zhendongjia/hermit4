@@ -1,5 +1,5 @@
 .KEEP_STATE:
-FFLAGS = -O3
+FFLAGS = -g
 #FFLAGS = -O3 -ffortran-bounds-check
 FC = gfortran
 

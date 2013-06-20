@@ -14,12 +14,16 @@
     1 CONTINUE
 
 *       Read parameters about tidal force by gas disk
-      READ (5,*) G_P, G_D, T_DEP, R_EDGE, DENS_ORI, DENS_P,
-     &     T_TIDAL1, T_TIDAL2
-      WRITE (6,5) G_P, G_D, T_DEP, R_EDGE, DENS_ORI, DENS_P,
-     &     T_TIDAL1, T_TIDAL2
- 5    FORMAT (/, 2X, 1P, 8E10.1)
-
+      READ (5,*) G_P, G_D, T_DEP, R_EDGE, R_IN, DENS0, DENS_P
+      WRITE (6,5) G_P, G_D, T_DEP, R_EDGE, R_IN, DENS0, DENS_P
+ 5    FORMAT (/, 2X, 1P, 6E10.1)
+      GCM2_MAU2 = 1.125D-7
+      GCM3_MAU3 = 1.7D6
+      DENS0 = DENS0*GCM2_MAU2
+      DENS_P = DENS_P*GCM3_MAU3
+      DO 2 I = 1, N
+      RADIUS(I) = (BODY(I)*3/(2*TWOPI*DENS_P))**0.333
+ 2    CONTINUE
 *
 *       Initialize the portable random number generator (range: 0 to 1).
       KDUM = -1
