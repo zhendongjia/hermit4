@@ -3,10 +3,11 @@
       INCLUDE 'commonp.h'
       INTEGER I
       REAL*8 XI(3), XIDOT(3), FIN(3), FDN(3)
-      REAL*8 YEAR, R12, R12_DOT, THE(3), THE_DOT(3), VCI(3), VCI_DOT(3),
+      REAL*8 YEAR, R12, R12_DOT, V12, V12_DOT, THE(3), THE_DOT(3),
+     &       VCI(3), VCI_DOT(3),
      &       DELT_V(3), DELT_V_DOT(3), ABS_DELT_V, ABS_DELT_V_DOT,
      &       HI, DENS_S, DENS_G, HI_DOT, DENS_S_DOT, DENS_G_DOT,
-     &       DENS_P, T_TIDAL1_DOT, T_TIDAL2_DOT
+     &       T_TIDAL1_DOT, T_TIDAL2_DOT
 C
       R12 = 0.0
       R12_DOT = 0.0

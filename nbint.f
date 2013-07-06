@@ -61,6 +61,9 @@
         IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.R_IN)
      &         CALL DAMPING(XI, XIDOT, FIN, FDN, I)
 *
+*       Add general relativity
+        IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIN, FDN, I)
+*
 *       Obtain force & derivative from non-zero mass particles.
       DO 10 J = IFIRST,NMASS
           IF (J.EQ.I) GO TO 8
