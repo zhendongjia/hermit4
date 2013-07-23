@@ -20,7 +20,7 @@ C
 C
       YEAR = TIME/TWOPI
       DENS = DENS0*EXP(-YEAR/T_DEP)*R12**(-1.5)
-      DENS_DOT = DENS0*(-1/T_DEP)*EXP(-YEAR/T_DEP)*R12**(-1.5) 
+      DENS_DOT = DENS0*(-1/T_DEP)*EXP(-YEAR/T_DEP)*R12**(-1.5)/TWOPI 
      &           + DENS0*(-1.5)*R12**(-2.5)*R12_DOT*EXP(-YEAR/T_DEP)
 C
       FIN_ABS = TWOPI*DENS*(0.2*(R12/R_EDGE)**(2.5)

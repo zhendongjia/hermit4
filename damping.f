@@ -15,7 +15,7 @@ C
       V12_DOT = 0.0
       DO 1 K = 1, 3 
       R12 = R12 + XI(K)**2
-      R12_DOT = R_DOT12 + XI(K)*XIDOT(K)
+      R12_DOT = R12_DOT + XI(K)*XIDOT(K)
       V12 = V12 + XIDOT(K)**2
       V12_DOT = V12_DOT + XIDOT(K)*FIN(K)
  1    CONTINUE
