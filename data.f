@@ -14,9 +14,11 @@
     1 CONTINUE
 
 *       Read parameters about tidal force by gas disk
-      READ (5,*) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0, DENS_P
-      WRITE (6,5) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0, DENS_P
- 5    FORMAT (/, 2X, 1P, 6E10.1)
+      READ (5,*) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0, DENS_P, 
+     &             M_CRIT
+      WRITE (6,5) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0, DENS_P, 
+     &     M_CRIT
+ 5    FORMAT (/, 2X, 1P, 9E10.1)
       GCM2_MAU2 = 1.125D-7
       GCM3_MAU3 = 1.7D6
       DENS0 = DENS0*GCM2_MAU2

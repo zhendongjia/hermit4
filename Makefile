@@ -1,6 +1,6 @@
 .KEEP_STATE:
-FFLAGS = -g
-#FFLAGS = -O3 -ffortran-bounds-check
+FFLAGS = -pg -g -ffixed-line-length-none
+#FFLAGS = -ffixed-line-length-none -O3 -march=native
 FC = gfortran
 
 SOURCE = \
