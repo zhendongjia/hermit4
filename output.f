@@ -7,7 +7,6 @@
       INCLUDE 'commonp.h'
       REAL*8  XS(3),XSD(3),SEMI(NMAX),ECC(NMAX),A(4)
       REAL*8  TA_F,W_F,W
-      DATA ECRIT,RESC /0.99D0,5.0D0/
 *
 *
 *       Predict X & XDOT for all particles.
@@ -77,10 +76,8 @@
 *
 *       Print diagnostic information.
       WRITE (6,30)  TIME/TWOPI, NSTEPS, NSTEPU, BE(3), DE, AZ
-   30 FORMAT (/,' YRS ='F20.5,'  # =',0P,I10,I8,'  E =',F10.6,
-     &          '  DE =',1P,E10.2,'  AZ =',0P,F12.8)
-   40 IESC = 0
-*     IF (KZ(6).GT.0) THEN
+   30 FORMAT (/,' YRS = 'F15.1,'  # = ',0P,I10,I8,'  E = ',F10.6,
+     &          '  DE = ',1P,E10.2,'  AZ = ',0P,F12.8)
           DO 50 I = IFIRST,N
               RI2 = 0.0
               VI2 = 0.0
@@ -98,51 +95,21 @@
               SEMI(I) = 1.0/SEMI(I)
               ECC2 = (1.0 - RI/SEMI(I))**2 + RD**2/(SEMI(I)*ZMB)
               ECC(I) = SQRT(ECC2)
-*       Consider escape removal (or high ECC) but exclude encounter.
-          IF (ECC(I).GT.ECRIT.AND.STEP(I).GT.20.0*DTMIN.AND.
-     &        KZ(9).GT.0) THEN
-              IF (IESC.EQ.0.AND.(RI.GT.RESC.OR.ECC(I).LT.1.0)) THEN
-                  WRITE (6,47) I, NAME(I), N-1, ECC(I), RI, SEMI(I)
-   47             FORMAT (' ESCAPE    I NAM N ECC R A ',
-     &                                3I4,F9.4,2F8.3)
-                  IF (IESC.EQ.0) THEN
-                      IESC = I
-                      ECCI = ECC(I)
-                  END IF
-              END IF
-          END IF
 *       Include optional output of elements.
-          IF (KZ(6).GT.0.AND.IESC.EQ.0.AND.STEP(I).GT.20.0*DTMIN) THEN
+          IF (KZ(6).GT.0) THEN
              W_F = 0
              TA_F = 0
              W = GET_PRECESSION(X(:,I), XDOT(:,I), SEMI(I), ECC(I),
      &            W_F, TA_F)
              WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
-     &            W, W_F, TA_F, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
+     &            W, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
      &            T_TIDAL1(I), T_TIDAL2(I), RADIUS(I)*1.5E8, BODY(I),
      &             EXP(-TIME/(TWOPI*T_DEP))
    48         FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F15.4, 2X,
-     &                      F15.4, 2X, F15.4, 1P, E10.2, 0P, 3F15.3, 8E10.1, 
+     &                      F15.4, 2X, F15.4, 1P, E10.2, 0P, F15.3, 8E10.1, 
      &                      F15.4)
           END IF
    50     CONTINUE
-*     END IF
-*
-*       Check optional escaper removal (also ECC > ECRIT).
-      IF (KZ(9).GT.0.AND.IESC.GT.0) THEN
-          CALL REMOVE(IESC)
-          IF (N.EQ.1) STOP
-*       Update the total energy.
-          CALL ENERGY
-          BE(3) = ZKIN - POT + EBIN
-*       Reduce the steps to compensate for force discontinuity.
-          DO 55 J = IFIRST,NTOT
-              STEP(J) = 0.25*STEP(J)
-              TNEXT(J) = T0(J) + STEP(J)
-   55     CONTINUE
-*       Try again just in case.
-          GO TO 40
-      END IF
 *
 *       Include optional output of individual bodies.
       IF (KZ(4).GT.0) THEN

@@ -11,7 +11,7 @@
      &               N,NMASS,NAME(NMAX),KZ(10),NSTEPS,NTIMER,NBLOCK,
      &               IDUM1,NDUM(4),G_P,G_D,T_DEP,R_EDGE,R_IN,DENS0,
      &               DENS_P,RADIUS(NMAX),T_TIDAL1(NMAX),T_TIDAL2(NMAX),
-     &               M_CRIT
+     &               M_CRIT, IESC
 *
       COMMON/PARAMS/ CPU,CPU0,CPUTOT,ETA,DELTAT,TPRINT,TCRIT,QE,
      &               TWOPI,ONE3,ONE6,ONE9,ONE12,

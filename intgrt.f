@@ -141,6 +141,7 @@
 *
 *       Advance the pointer (<= NXTLEN) and select next particle index.
    50 LI = LI + 1
+      IF (NXTLEN.EQ.0) GO TO 1
       IF (LI.GT.NXTLEN) GO TO 5
 *
 *       Select the next sequential particle.
@@ -149,6 +150,20 @@
 *
 *       Perform the integration step for body #I.
       CALL NBINT(I,IKS)
+      IF (IESC.GT.0) THEN 
+         CALL REMOVE(I)
+         CALL RM_FROM_LIST(I, LISTQ, NQ)
+         CALL RM_FROM_LIST(I, NXTLST, NXTLEN)
+         LI = LI - 1
+         IF (N.EQ.1) STOP
+         CALL ENERGY
+         BE(3) = ZKIN - POT + EBIN
+          DO 55 J = IFIRST,NTOT
+             STEP(J) = 0.25*STEP(J)
+             TNEXT(J) = T0(J) + STEP(J)
+ 55          CONTINUE
+            GO TO 50
+        END IF         
 *
 *       Determine next block time.
       TMIN = MIN(TNEXT(I),TMIN)

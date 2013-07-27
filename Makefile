@@ -10,7 +10,7 @@ energy.f fpoly1.f fpert.f iblock.f inext.f input.f \
 intgrt.f mydump.f nbint.f output.f ran2.f remove.f \
 resolv.f search.f start.f stepi.f stepk.f steps.f \
 tstep.f xvpred.f zero.f get_precession.f damping.f \
-gas_potential.f gr.f
+gas_potential.f gr.f rm_from_list.f
 
 OBJECTS = $(SOURCE:.f=.o)
 

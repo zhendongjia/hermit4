@@ -1,0 +1,16 @@
+      SUBROUTINE RM_FROM_LIST(TARGET, LIST, LENGTH)
+      INTEGER TARGET, LIST(*), LENGTH
+      LOCATION = 0
+      DO K = 1, LENGTH
+         IF (LIST(K).EQ.TARGET) LOCATION = K
+      END DO
+      IF (LOCATION.GT.0) THEN
+         LENGTH = LENGTH - 1
+         DO K = LOCATION, LENGTH
+            LIST(K) = LIST(K+1)
+         END DO
+      END IF
+      DO K = 1, LENGTH
+         IF (LIST(K).GT.TARGET) LIST(K) = LIST(K) - 1
+      END DO
+      END SUBROUTINE
