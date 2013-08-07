@@ -10,7 +10,7 @@
      &        X0T(3),V0T(3),AT3(3),BT2(3), GCM2_MAU2, GCM3_MAU3
       SAVE IPLOT
       DATA IPLOT /0/
-      DATA ECRIT,RESC /0.99D0,10.0D0/
+      DATA ECRIT /1.00D0/
 *
       IESC = 0
 *       Check regularization criterion for single particles.
@@ -46,27 +46,7 @@
           FIN(K) = 0.0D0
           FDN(K) = 0.0D0
     5 CONTINUE
-*
-*     check if escape happen already
-      RI2 = XI(1)**2 + XI(2)**2 + XI(3)**2
-      VI2 = XIDOT(1)**2 + XIDOT(2)**2 + XIDOT(3)**2
-      RD = XI(1)*XIDOT(1) + XI(2)*XIDOT(2) + XI(3)*XIDOT(3)
-      RI = SQRT(RI2)
-      VI = SQRT(VI2)
-      ZMB = 1.0 + BODY(I)
-      SEMI = 2.0/RI - VI2/ZMB
-      SEMI = 1/SEMI
-      ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
-      ECC = SQRT(ECC2)
-      V_ESC = SQRT(2/RI)
-      IF ((ECC.GT.ECRIT.OR.RI.GT.RESC.OR.VI/V_ESC.GT.0.99).AND.KZ(9).GT.0) THEN
-         WRITE (6,47) I, NAME(I), N-1, ECC, RI, SEMI
- 47      FORMAT (' ESCAPE    I NAM N ECC R A ',3I4,F9.4,2F8.3)
-         WRITE (0,*) TIME/TWOPI, STEP(I), NAME(I), ECC, RI, VI/V_ESC
-         IESC = 1
-         GO TO 100
-       END IF
-*
+**
 *       Treat c.m. body more carefully
       IF (I.GT.N) THEN
           CALL CMF(XI,XIDOT,FIN,FDN)
@@ -282,6 +262,24 @@
       END IF
       END IF
 *
+*     check if escape happen already
+      RI2 = XI(1)**2 + XI(2)**2 + XI(3)**2
+      VI2 = XIDOT(1)**2 + XIDOT(2)**2 + XIDOT(3)**2
+      RD = XI(1)*XIDOT(1) + XI(2)*XIDOT(2) + XI(3)*XIDOT(3)
+      RI = SQRT(RI2)
+      VI = SQRT(VI2)
+      ZMB = 1.0 + BODY(I)
+      SEMI = 2.0/RI - VI2/ZMB
+      SEMI = 1/SEMI
+      ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
+      ECC = SQRT(ECC2)
+      V_ESC = SQRT(2/RI)
+      IF ((ECC.GT.ECRIT.OR.RI.GT.R_ESC).AND.KZ(9).GT.0) THEN
+         WRITE (6,47) I, NAME(I), N-1, ECC, RI, SEMI
+ 47     FORMAT (' ESCAPE    I NAM N ECC R A ',3I4,F9.4,2E10.1)
+          WRITE (0,*) TIME/TWOPI, NAME(I), ECC, STEP(I), RI
+          IESC = 1
+      END IF
  100  RETURN
 *
       END

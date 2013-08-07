@@ -27,6 +27,7 @@
 *
           BODY(J) = BODY(J1)
           NAME(J) = NAME(J1)
+          RADIUS(J) = RADIUS(J1)
           STEP(J) = STEP(J1)
           T0(J) = T0(J1)
           TNEXT(J) = TNEXT(J1)
