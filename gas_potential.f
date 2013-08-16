@@ -37,4 +37,6 @@ C
          FDN(K) = FDN(K) + FIN_ABS_DOT*THE(K) + FIN_ABS*THE_DOT(K)
  3    CONTINUE
 C
+      F_DISK = FIN_ABS
+      F_DISK_DOT = FIN_ABS_DOT
       END

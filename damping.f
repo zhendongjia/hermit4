@@ -32,10 +32,18 @@ C
       VCI(1) = -R12**(-0.5)*THE(2)
       VCI(2) = R12**(-0.5)*THE(1)
       VCI(3) = R12**(-0.5)*THE(3)
+c      VCI(1) = -SQRT(F_DISK/R12 + 1/R12**3)*THE(2)
+c      VCI(2) = SQRT(F_DISK/R12 + 1/R12**3)*THE(1)
+c      VCI(3) = SQRT(F_DISK/R12 + 1/R12**3)*THE(3)
 C
       VCI_DOT(1) = 0.5*R12**(-1.5)*THE(2) - R12**(-0.5)*THE_DOT(2)
       VCI_DOT(2) = (-0.5)*R12**(-1.5)*THE(1) + R12**(-0.5)*THE_DOT(1)
       VCI_DOT(3) = (-0.5)*R12**(-1.5)*THE(3) + R12**(-0.5)*THE_DOT(3)
+c      TEMP = SQRT(F_DISK/R12 + 1/R12**3)
+c      TEMP_DOT = 0.5*(F_DISK_DOT/R12 - F_DISK*R12_DOT/R12**2 - 3*R12_DOT/R12**4)/TEMP
+c      VCI_DOT(1) = -TEMP_DOT*THE(2) - TEMP*THE_DOT(2)
+c      VCI_DOT(2) = TEMP_DOT*THE(1) + TEMP*THE_DOT(1)
+c      VCI_DOT(3) = TEMP_DOT*THE(3) + TEMP*THE_DOT(3)
 C
       DO 3 K = 1, 3
          DELT_V(K) = XIDOT(K) - VCI(K)
