@@ -1,6 +1,6 @@
-      SUBROUTINE GR(XI,XIDOT,FIN,FDN,I)
+      SUBROUTINE GR(XI,XIDOT,FIRR,FD,I)
       INCLUDE 'commonp.h'
-      REAL*8 XI(3),XIDOT(3),FIN(3),FDN(3)
+      REAL*8 XI(3),XIDOT(3),FIRR(3),FD(3)
       REAL*8 SEMII, ECCI, R12, R12_DOT, V12, V12_DOT, V_C,
      &          SEMII_DOT, ECCI_DOT
 C
@@ -12,7 +12,7 @@ C
          R12 = R12 + XI(K)**2
          V12 = V12 + XIDOT(K)**2
          R12_DOT = R12_DOT + XI(K)*XIDOT(K)
-         V12_DOT = V12_DOT + XIDOT(K)*FIN(K)
+         V12_DOT = V12_DOT + XIDOT(K)*FIRR(K)
  1       CONTINUE
        R12 = SQRT(R12)
        R12_DOT = R12_DOT/R12
@@ -32,8 +32,8 @@ C     &                + 2*R12_DOT*R12_DOT_DOT*R12**2/)
 C     
        V_C = 173*365/TWOPI
        DO  2 K = 1, 3
-          FIN(K) = FIN(K) - 3*SEMII*(1-ECCI**2)*XI(K)/(V_C**2*R12**5)
-          FDN(K) = FDN(K) -3*SEMII_DOT*(1-ECCI**2)*XI(K)/(V_C**2*R12**5)
+          FIRR(K) = FIRR(K) - 3*SEMII*(1-ECCI**2)*XI(K)/(V_C**2*R12**5)
+          FD(K) = FD(K) -3*SEMII_DOT*(1-ECCI**2)*XI(K)/(V_C**2*R12**5)
      &         - 3*SEMII*(1-2*ECCI*ECCI_DOT)*XI(K)/(V_C**2*R12**5)
      &         - 3*SEMII*(1-ECCI**2)*XIDOT(K)/(V_C**2*R12**5)
      &         +15*SEMII*(1-ECCI**2)*XI(K)*R12_DOT/(V_C**2*R12**6)

@@ -1,6 +1,6 @@
-      SUBROUTINE GAS_POTENTIAL(XI,XIDOT,FIN,FDN)
+      SUBROUTINE GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
       INCLUDE 'commonp.h'
-      REAL*8 XI(3),XIDOT(3),FIN(3),FDN(3)
+      REAL*8 XI(3),XIDOT(3),FIRR(3),FD(3)
       REAL*8 YEAR, R12, R12_DOT, THE(3), THE_DOT(3), 
      &      DENS, DENS_DOT, FIN_ABS, FIN_ABS_DOT
 C
@@ -19,24 +19,22 @@ C
  2    CONTINUE
 C
       YEAR = TIME/TWOPI
-      DENS = DENS0*EXP(-YEAR/T_DEP)*R12**(-1.5)
-      DENS_DOT = DENS0*(-1/T_DEP)*EXP(-YEAR/T_DEP)*R12**(-1.5)/TWOPI 
-     &           + DENS0*(-1.5)*R12**(-2.5)*R12_DOT*EXP(-YEAR/T_DEP)
+      DENS = DENS0*EXP(-YEAR/T_DEP)*R12**(-KG)
+      DENS_DOT = DENS0*(-1/T_DEP)*EXP(-YEAR/T_DEP)*R12**(-KG)/TWOPI 
+     &           + DENS0*(-KG)*R12**(-KG-1)*R12_DOT*EXP(-YEAR/T_DEP)
 C
-      FIN_ABS = TWOPI*DENS*(0.2*(R12/R_EDGE)**(2.5)
-     &          + 32*(R12/R_EDGE)**(4.5)) 
+      FIN_ABS = TWOPI*DENS*((0.5/(1+kg))*(R12/R_EDGE)**(1+kg)
+     &          + (144.0/(3+kg))*(R12/R_EDGE)**(3+kg)) 
 C
-      FIN_ABS_DOT = TWOPI*DENS_DOT*(0.2*(R12/R_EDGE)**(2.5)
-     &                              + 32*(R12/R_EDGE)**(4.5))
-     &              + TWOPI*DENS*(0.5*(R12/R_EDGE)**(1.5)
-     &                              + 144*(R12/R_EDGE)**(3.5))
+      FIN_ABS_DOT = TWOPI*DENS_DOT*(0.5/(1+kg)*(R12/R_EDGE)**(1+kg)
+     &                              + 144.0/(3+kg)*(R12/R_EDGE)**(3+kg))
+     &              + TWOPI*DENS*(0.5*(R12/R_EDGE)**(kg)
+     &                              + 144.0*(R12/R_EDGE)**(2+kg))
      &              *(R12_DOT/R_EDGE)
 C      
       DO 3 K = 1, 3
-         FIN(K) = FIN(K) + FIN_ABS*THE(K)
-         FDN(K) = FDN(K) + FIN_ABS_DOT*THE(K) + FIN_ABS*THE_DOT(K)
+         FIRR(K) = FIRR(K) + FIN_ABS*THE(K)
+         FD(K) = FD(K) + FIN_ABS_DOT*THE(K) + FIN_ABS*THE_DOT(K)
  3    CONTINUE
 C
-      F_DISK = FIN_ABS
-      F_DISK_DOT = FIN_ABS_DOT
       END

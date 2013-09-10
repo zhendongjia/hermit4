@@ -55,15 +55,6 @@
           GO TO 32
       END IF
 *
-*       Add gas disk gravity
-      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIN,FDN)
-*
-*       Add the tidal force by gas disk
-        IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.R_IN)
-     &         CALL DAMPING(XI, XIDOT, FIN, FDN, I)
-*
-*       Add general relativity
-        IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIN, FDN, I)
 *
 *       Obtain force & derivative from non-zero mass particles.
       DO 10 J = IFIRST,NMASS
@@ -155,7 +146,7 @@
           END IF
 *
 *       Perform one iteration with dominant body of mass = 1.
-   40 DO 50 ITER = 1,2
+ 40   DO 50 ITER = 1,2
           RIN2 = 1.0/(XI(1)**2 + XI(2)**2 + XI(3)**2)
           RIN3 = RIN2*SQRT(RIN2)
           RD = 3.0*(XI(1)*XIDOT(1) + XI(2)*XIDOT(2) +
@@ -166,6 +157,16 @@
               FIRR(K) = FIN(K) - RIN3*XI(K)
               FD(K) = FDN(K) - (XIDOT(K) - RD*XI(K))*RIN3
    42     CONTINUE
+*
+*       Add gas disk gravity
+      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+*
+*       Add general relativity
+      IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIRR, FD, I)
+*
+*       Add the tidal force by gas disk
+      IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.R_IN)
+     &         CALL DAMPING(XI, XIDOT, FIRR, FD, I)
 *
 *       Include the corrector after first or second iteration.
           DO 45 K = 1,3
@@ -276,8 +277,8 @@
       V_ESC = SQRT(2/RI)
       IF ((ECC.GT.ECRIT.OR.RI.GT.R_ESC).AND.KZ(9).GT.0) THEN
          WRITE (6,47) I, NAME(I), N-1, ECC, RI, SEMI
- 47     FORMAT (' ESCAPE    I NAM N ECC R A ',3I4,F9.4,2E10.1)
-          WRITE (0,*) TIME/TWOPI, NAME(I), ECC, STEP(I), RI
+ 47     FORMAT (' ESCAPE    I NAM N ECC R A ',3I4,2X,F9.4,2X,2F15.3)
+          WRITE (0,*) TIME/TWOPI, NAME(I), ECC, RI, SEMI
           IESC = 1
       END IF
  100  RETURN

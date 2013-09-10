@@ -5,7 +5,7 @@
 *       -------------------------------
 *
       INCLUDE 'commonp.h'
-      INTEGER  NXTLST(NMAX),LISTQ(NMAX),NL(20)
+      INTEGER  NXTLST(NMAX),LISTQ(NMAX),NL(40)
       LOGICAL LOOP
       SAVE IQ,LQ,LOOP
       DATA IQ,LQ,LOOP /0,11,.TRUE./
@@ -25,7 +25,7 @@
       IQ = 0
 *
 *       Determine level for the smallest step (ignore extreme values).
-      LQS = 20
+      LQS = 40
       DO 3 L = 1,40
           IF (DTM.EQ.DTK(L)) THEN
               LQS = L
@@ -42,7 +42,7 @@
 *       Update interval by optimization at major times using sqrt(N).
           IF (DMOD(TLISTQ,2.0D0).EQ.0.0D0.OR.LOOP) THEN
               LOOP = .FALSE.
-              DO 10 L = 1,20
+              DO 10 L = 1,40
                   NL(L) = 0
    10         CONTINUE
               DO 14 I = IFIRST,NTOT
