@@ -23,13 +23,13 @@ C
       DENS_DOT = DENS0*(-1/T_DEP)*EXP(-YEAR/T_DEP)*R12**(-KG)/TWOPI 
      &           + DENS0*(-KG)*R12**(-KG-1)*R12_DOT*EXP(-YEAR/T_DEP)
 C
-      FIN_ABS = TWOPI*DENS*((0.5/(1+kg))*(R12/R_EDGE)**(1+kg)
-     &          + (144.0/(3+kg))*(R12/R_EDGE)**(3+kg)) 
+      FIN_ABS = TWOPI*DENS*((0.5/(1+KG))*(R12/R_EDGE)**(1+KG)
+     &          + (144.0/(3+KG))*(R12/R_EDGE)**(3+KG)) 
 C
-      FIN_ABS_DOT = TWOPI*DENS_DOT*(0.5/(1+kg)*(R12/R_EDGE)**(1+kg)
-     &                              + 144.0/(3+kg)*(R12/R_EDGE)**(3+kg))
-     &              + TWOPI*DENS*(0.5*(R12/R_EDGE)**(kg)
-     &                              + 144.0*(R12/R_EDGE)**(2+kg))
+      FIN_ABS_DOT = TWOPI*DENS_DOT*(0.5/(1+KG)*(R12/R_EDGE)**(1+KG)
+     &                              + 144.0/(3+KG)*(R12/R_EDGE)**(3+KG))
+     &              + TWOPI*DENS*(0.5*(R12/R_EDGE)**(KG)
+     &                              + 144.0*(R12/R_EDGE)**(2+KG))
      &              *(R12_DOT/R_EDGE)
 C      
       DO 3 K = 1, 3

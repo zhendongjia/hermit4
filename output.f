@@ -95,6 +95,7 @@
               SEMI(I) = 1.0/SEMI(I)
               ECC2 = (1.0 - RI/SEMI(I))**2 + RD**2/(SEMI(I)*ZMB)
               ECC(I) = SQRT(ECC2)
+
 *       Include optional output of elements.
           IF (KZ(6).GT.0) THEN
              W_F = 0
@@ -108,7 +109,7 @@
      &               EXP(-TIME/(TWOPI*T_DEP))
  48             FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
      &               F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
-     &               E15.4, 2X, E15.4, 2X, F10.1, E10.1, 2X, F10.4)
+     &               E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4)
              ELSE
                 XY = X(1,I)*XDOT(2,I) - X(2,I)*XDOT(1,I)
                 XZ = X(1,I)*XDOT(3,I) - X(3,I)*XDOT(1,I)
@@ -120,9 +121,9 @@
      &               T_TIDAL1(I)/T_DEP, T_TIDAL2(I)/T_DEP, RADIUS(I)*1.5E8, BODY(I),
      &               EXP(-TIME/(TWOPI*T_DEP)), X(3,I), XDOT(3,I), INC(I)
  49             FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
-     &                      F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
-     &                      E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4, 2E10.1, F10.1)
-             ENDIF
+     &               F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
+     &               E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4, 2E10.1, F10.1)
+             END IF
           END IF
    50     CONTINUE
 *
