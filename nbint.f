@@ -165,8 +165,25 @@
       IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIRR, FD, I)
 *
 *       Add the tidal force by gas disk
-      IF (G_D.GT.0.0 .AND. SQRT(XI(1)**2+XI(2)**2+XI(3)**2).LT.R_IN)
-     &         CALL DAMPING(XI, XIDOT, FIRR, FD, I)
+      RI2 = XI(1)**2 + XI(2)**2 + XI(3)**2
+      VI2 = XIDOT(1)**2 + XIDOT(2)**2 + XIDOT(3)**2
+      RD = XI(1)*XIDOT(1) + XI(2)*XIDOT(2) + XI(3)*XIDOT(3)
+      RI = SQRT(RI2)
+      VI = SQRT(VI2)
+      ZMB = 1.0 + BODY(I)
+      SEMI = 2.0/RI - VI2/ZMB
+      SEMI = 1/SEMI
+      ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
+      ECC = SQRT(ECC2)
+      IF (G_D.GT.0.0 .AND.(RI.LE.R_IN.OR.RI.GE.R_EDGE)) THEN 
+         IF (BODY(I).GE.5E-4) THEN
+            IF (ECC.GE.EJ) THEN 
+               CALL DAMPING(XI, XIDOT, FIRR, FD, I)
+            END IF
+         ELSE
+            CALL DAMPING(XI, XIDOT, FIRR, FD, I)
+         END IF
+      END IF
 *
 *       Include the corrector after first or second iteration.
           DO 45 K = 1,3
