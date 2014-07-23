@@ -5,7 +5,8 @@
       IMPLICIT REAL*8  (A-H,O-Z)
 *
       REAL*8 M_CRIT
-      REAL*8 R_ESC, KG
+      REAL*8 R_ESC, KG, INC
+      INTEGER THREE_D
       COMMON/NBODY/ X(3,NMAX),X0(3,NMAX),X0DOT(3,NMAX),F(3,NMAX),
      &               FDOT(3,NMAX),BODY(NMAX),XDOT(3,NMAX),D1(3,NMAX),
      &               D2(3,NMAX),D3(3,NMAX),STEP(NMAX),T0(NMAX),
@@ -13,6 +14,7 @@
      &               IDUM1,NDUM(4),G_P,G_D,G_R,T_DEP,R_EDGE,R_IN,DENS0,
      &               DENS_P,RADIUS(NMAX),T_TIDAL1(NMAX),T_TIDAL2(NMAX),
      &               M_CRIT, KG, IESC,
+     &               THREE_D, INC(NMAX),
      &               NLEAST
 *
       COMMON/PARAMS/ CPU,CPU0,CPUTOT,ETA,DELTAT,TPRINT,TCRIT,QE,

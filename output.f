@@ -101,13 +101,28 @@
              TA_F = 0
              W = GET_PRECESSION(X(:,I), XDOT(:,I), SEMI(I), ECC(I),
      &            W_F, TA_F)
-             WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
-     &            W, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
-     &            T_TIDAL1(I)/T_DEP, T_TIDAL2(I)/T_DEP, RADIUS(I)*1.5E8, BODY(I),
-     &             EXP(-TIME/(TWOPI*T_DEP))
-   48         FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
+             IF (THREE_D.EQ.0) THEN
+                WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
+     &               W, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
+     &               T_TIDAL1(I)/T_DEP, T_TIDAL2(I)/T_DEP, RADIUS(I)*1.5E8, BODY(I),
+     &               EXP(-TIME/(TWOPI*T_DEP))
+ 48             FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
+     &               F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
+     &               E15.4, 2X, E15.4, 2X, F10.1, E10.1, 2X, F10.4)
+             ELSE
+                XY = X(1,I)*XDOT(2,I) - X(2,I)*XDOT(1,I)
+                XZ = X(1,I)*XDOT(3,I) - X(3,I)*XDOT(1,I)
+                YZ = X(2,I)*XDOT(3,I) - X(3,I)*XDOT(2,I)
+                INC(I) = XY/SQRT(XY**2 + XZ**2 + YZ**2)
+                INC(I) = ACOS(INC(I))*360/TWOPI
+                WRITE (6,49) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
+     &               W, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),  
+     &               T_TIDAL1(I)/T_DEP, T_TIDAL2(I)/T_DEP, RADIUS(I)*1.5E8, BODY(I),
+     &               EXP(-TIME/(TWOPI*T_DEP)), X(3,I), XDOT(3,I), INC(I)
+ 49             FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
      &                      F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
-     &                      E15.4, 2X, E15.4, 2X, F10.1, E10.1, 2X, F10.4)
+     &                      E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4, 2E10.1, F10.1)
+             ENDIF
           END IF
    50     CONTINUE
 *
