@@ -155,7 +155,7 @@
          CALL RM_FROM_LIST(I, LISTQ, NQ)
          CALL RM_FROM_LIST(I, NXTLST, NXTLEN)
          LI = LI - 1
-         IF (N.EQ.1) STOP
+         IF (N.EQ.NLEAST) STOP
          CALL ENERGY
          BE(3) = ZKIN - POT + EBIN
           DO 55 J = IFIRST,NTOT
