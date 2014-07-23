@@ -62,13 +62,13 @@ C
       DENS_G_DOT = DENS_G*DENS_S_DOT/DENS_S - DENS_G*HI_DOT/HI
 C
 C
-      T_TIDAL1(I) = (DENS_P/DENS_G)*RADIUS(I)*(8.0/3)/ABS_DELT_V
+      T_TIDAL1(I) = (DENS_P/DENS_G)*RADIUS(I)/(ABS_DELT_V*CD)
       T_TIDAL1(I) = T_TIDAL1(I)/TWOPI
       T_TIDAL1_DOT = T_TIDAL1(I)*(-DENS_G_DOT)/DENS_G
      &         + T_TIDAL1(I)*(-ABS_DELT_V_DOT)/ABS_DELT_V
 C
       T_TIDAL2(I) = (1/BODY(I))*(1/(DENS_S*R12**2))*(HI/R12)**4
-     &                   *(R12/V12)
+     &                   *(R12/V12)*0.2
       T_TIDAL2(I) = T_TIDAL2(I)/TWOPI
       T_TIDAL2_DOT = T_TIDAL2(I)*(-DENS_S_DOT)/DENS_S
      &           + T_TIDAL2(I)*(-2*R12_DOT)/R12
