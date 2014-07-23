@@ -31,7 +31,7 @@ C
      &              + TWOPI*DENS*(0.5*(R12/R_EDGE)**(KG)
      &                              + 144.0*(R12/R_EDGE)**(2+KG))
      &              *(R12_DOT/R_EDGE)
-C      
+C
       DO 3 K = 1, 3
          FIRR(K) = FIRR(K) + FIN_ABS*THE(K)
          FD(K) = FD(K) + FIN_ABS_DOT*THE(K) + FIN_ABS*THE_DOT(K)

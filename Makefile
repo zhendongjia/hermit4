@@ -1,6 +1,8 @@
 .KEEP_STATE:
 FFLAGS = -pg -g -ffixed-line-length-none
 #FFLAGS = -ffixed-line-length-none -O3 -march=native
+
+
 FC = gfortran
 
 SOURCE = \
@@ -10,7 +12,10 @@ energy.f fpoly1.f fpert.f iblock.f inext.f input.f \
 intgrt.f mydump.f nbint.f output.f ran2.f remove.f \
 resolv.f search.f start.f stepi.f stepk.f steps.f \
 tstep.f xvpred.f zero.f get_precession.f damping.f \
-gas_potential.f gr.f rm_from_list.f
+gas_potential.f gr.f rm_from_list.f \
+gas_potential_add_inner_pot.f get_outer_gravity.f \
+gas_potential_3d.f
+
 
 OBJECTS = $(SOURCE:.f=.o)
 

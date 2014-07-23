@@ -159,7 +159,9 @@
    42     CONTINUE
 *
 *       Add gas disk gravity
-      IF (G_P.GT.0.0) CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+      IF (INT(G_P).EQ.1) CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+      IF (INT(G_P).EQ.2) CALL GAS_POTENTIAL_ADD_INNER_POT(XI,XIDOT,FIRR,FD)
+      IF (INT(G_P).EQ.3) CALL GAS_POTENTIAL_3D(XI, XIDOT, FIRR, FD)
 *
 *       Add general relativity
       IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIRR, FD, I)
