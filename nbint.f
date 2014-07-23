@@ -263,7 +263,7 @@
       END IF
       END IF
 *
-*     check if escape happen already
+*     check if (escape/migrate too close to the host star) happen already
       RI2 = XI(1)**2 + XI(2)**2 + XI(3)**2
       VI2 = XIDOT(1)**2 + XIDOT(2)**2 + XIDOT(3)**2
       RD = XI(1)*XIDOT(1) + XI(2)*XIDOT(2) + XI(3)*XIDOT(3)
@@ -275,7 +275,7 @@
       ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
       ECC = SQRT(ECC2)
       V_ESC = SQRT(2/RI)
-      IF ((ECC.GT.ECRIT.OR.RI.GT.R_ESC).AND.KZ(9).GT.0) THEN
+      IF ((ECC.GT.ECRIT.OR.RI.GT.R_ESC.OR.SEMI.LE.R_MHS).AND.KZ(9).GT.0) THEN
          WRITE (6,47) I, NAME(I), N-1, ECC, RI, SEMI
  47     FORMAT (' ESCAPE    I NAM N ECC R A ',3I4,2X,F9.4,2X,2F15.3)
           WRITE (0,*) TIME/TWOPI, NAME(I), ECC, RI, SEMI
