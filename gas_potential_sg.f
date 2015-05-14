@@ -1,4 +1,4 @@
-      SUBROUTINE GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+      SUBROUTINE GAS_POTENTIAL_SG(XI,XIDOT,FIRR,FD)
       INCLUDE 'commonp.h'
       REAL*8 XI(3),XIDOT(3),FIRR(3),FD(3)
       REAL*8 YEAR, R12, R12_DOT, THE(3), THE_DOT(3), 
@@ -24,19 +24,14 @@ C
      &           + DENS0*(-KG)*R12**(-KG-1)*R12_DOT*EXP(-YEAR/T_DEP)
 C
       FIN_ABS = TWOPI*DENS*(
-     &     0.5/(1+KG)*(R12/R_EDGE)**(1+KG)
-     &   + 0.5625/(3+KG)*(R12/R_EDGE)**(3+KG)
-     &   - 1.0/(2-KG)*(R_IN/R12)**(2-KG)       
-     &   - 0.75/(4-KG)*(R_IN/R12)**(4-KG)
-     &   - 0.703125/(6-KG)*(R_IN/R12)**(6-KG) )
+     &   - 1./(2-KG)
+     &   + 1.25*(1-KG)/((4-KG)*(1+KG))
+     &   + 1.2656*(1-KG)/((6-KG)*(3+KG)) )
 C
-      FIN_ABS_DOT = FIN_ABS * (DENS_DOT/DENS)
-     &           + TWOPI*DENS*(R12_DOT/R12)*(
-     &           0.5*(R12/R_EDGE)**(1+KG)
-     &         + 0.5625*(R12/R_EDGE)**(3+KG)
-     &         + 1.0*(R_IN/R12)**(2-KG)
-     &         + 0.75*(R_IN/R12)**(4-KG)
-     &         + 0.703125*(R_IN/R12)**(6-KG)) 
+      FIN_ABS_DOT = TWOPI*DENS_DOT*(
+     &          - 1./(2-KG)
+     &          + 1.25*(1-KG)/((4-KG)*(1+KG))
+     &          + 1.2656*(1-KG)/((6-KG)*(3+KG)) )             
 C
       DO 3 K = 1, 3
          FIRR(K) = FIRR(K) + FIN_ABS*THE(K)

@@ -11,7 +11,7 @@ C
      &                           + XI(3) * XIDOT(3)) / RP
 C
       T1 = 0.5/(1+KG)
-      T2 = 144.0/(3+KG)
+      T2 = 0.5625/(3+KG)
       CONST = TWOPI * DENS_EDGE * (T1 * (RP/R_EDGE) 
      &          + T2 * (RP/R_EDGE)**3) 
 C

@@ -1,3 +1,4 @@
+
       SUBROUTINE DATA
 *
 *
@@ -12,15 +13,14 @@
       DO 1 I = 1,N
           READ (5,*)  BODY(I), (X(K,I),K=1,3), (XDOT(K,I),K=1,3)
     1 CONTINUE
-
 *       Read parameters about tidal force by gas disk
       READ (5,*) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0,
      &             DENS_P, M_CRIT, R_ESC, KG, EJ, CD, R_MHS, THREE_D,
-     &             NLEAST
+     &             NLEAST, TWOGG
       WRITE (6,5) G_P, G_D, G_R, T_DEP, R_EDGE, R_IN, DENS0,
      &             DENS_P, M_CRIT, R_ESC, KG, EJ, CD, R_MHS, THREE_D,
-     &             NLEAST
- 5    FORMAT (/, 2X, 1P, 10E10.1, F10.2, 3F10.4, 2I10)
+     &             NLEAST, TWOGG
+ 5    FORMAT (/, 2X, 1P, 10E10.1, F10.2, 3F10.4, 3I10)
       GCM2_MAU2 = 1.125D-7
       GCM3_MAU3 = 1.7D6
       DENS0 = DENS0*GCM2_MAU2
@@ -28,6 +28,10 @@
       DO 2 I = 1, N
       RADIUS(I) = (BODY(I)*3/(2*TWOPI*DENS_P))**0.333
  2    CONTINUE
+*
+      IF (TWOGG.GT.0) THEN 
+         READ(5,*) M_S, M_S_INT, T_S, R_S, R_EDGE_INT
+      END IF
 *
 *       Initialize the portable random number generator (range: 0 to 1).
       KDUM = -1

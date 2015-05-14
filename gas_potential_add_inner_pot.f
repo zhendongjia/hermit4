@@ -35,7 +35,7 @@ C
          CALL GET_OUTER_GRAVITY(R12,R12_DOT,ROUT,ROUT_DOT,
      &                           DENS,DENS_DOT,FOUT,FOUT_DOT)
          FIN_ABS = FIN*(1-R_IN**(2-KG)) + FOUT
-         FIN_ABS_DOT = FIN_DOT*(1-RIN**(2-KG)) + FOUT_DOT
+         FIN_ABS_DOT = FIN_DOT*(1-R_IN**(2-KG)) + FOUT_DOT
       END IF
 C
       IF(R12.LT.R_IN) THEN

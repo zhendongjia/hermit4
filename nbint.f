@@ -12,6 +12,11 @@
       DATA IPLOT /0/
       DATA ECRIT /1.00D0/
 *
+      IF (TWOGG.GT.0.AND.TIME.LE.TWOPI*T_S) THEN
+         BODY(3) = (M_S - M_S_INT)*TIME/(TWOPI*T_S) + M_S_INT
+         R_EDGE = (R_S - R_EDGE_INT)*TIME/(TWOPI*T_S) + R_EDGE_INT
+      END IF
+*          
       IESC = 0
 *       Check regularization criterion for single particles.
       IF (STEP(I).LT.DTMIN.AND.I.LE.N.AND.IFIRST.EQ.1) THEN
@@ -93,7 +98,7 @@
           FDN(2) = FDN(2) - (XDOT(2,J) - RRD*YJ)*FJ
           FDN(3) = FDN(3) - (XDOT(3,J) - RRD*ZJ)*FJ
    10 CONTINUE
-*
+
       IF (IFIRST.EQ.1) GO TO 40
       J = NTOT
           A1 = X(1,J) - XI(1)
@@ -158,11 +163,28 @@
               FD(K) = FDN(K) - (XIDOT(K) - RD*XI(K))*RIN3
    42     CONTINUE
 *
-*       Add gas disk gravity
-      IF (INT(G_P).EQ.1) CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
-      IF (INT(G_P).EQ.2) CALL GAS_POTENTIAL_ADD_INNER_POT(XI,XIDOT,FIRR,FD)
-      IF (INT(G_P).EQ.3) CALL GAS_POTENTIAL_3D(XI, XIDOT, FIRR, FD)
+      IF (TWOGG.GT.0.AND.I.EQ.3.AND.TIME.LE.T_S*TWOPI) GO TO 100
 *
+*       Add gas disk gravity
+      IF (INT(G_P).EQ.1) THEN
+         IF (BODY(I).GE.1E-4) THEN
+                CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+         ELSE
+                CALL GAS_POTENTIAL_FULL(XI, XIDOT, FIRR, FD)
+         END IF
+      END IF
+      IF (INT(G_P).EQ.2) THEN
+             IF (BODY(I).LE.1E-4) THEN
+                CALL GAS_POTENTIAL_P(XI,XIDOT,FIRR,FD)
+             END IF
+             IF (BODY(I).GT.5E-4) THEN
+                CALL GAS_POTENTIAL_J(XI, XIDOT, FIRR, FD)
+             END IF
+             IF (BODY(I).GT.1E-4.AND.BODY(I).LE.5E-4) THEN
+                CALL GAS_POTENTIAL_S(XI, XIDOT, FIRR, FD)
+             END IF
+      END IF                  
+*      
 *       Add general relativity
       IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIRR, FD, I)
 *
@@ -177,18 +199,20 @@
       SEMI = 1/SEMI
       ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
       ECC = SQRT(ECC2)
-      IF (G_D.GT.0.0 .AND.(RI.LE.R_IN.OR.RI.GE.R_EDGE)) THEN 
-         IF (BODY(I).GE.5E-4) THEN
-            IF (ECC.GE.EJ) THEN 
-               CALL DAMPING(XI, XIDOT, FIRR, FD, I)
-            END IF
-         ELSE
-            CALL DAMPING(XI, XIDOT, FIRR, FD, I)
-         END IF
+      IF (G_D.GT.0) THEN
+	IF (BODY(I).LT.1E-4) THEN
+	   CALL DAMPING(XI, XIDOT, FIRR, FD, I)
+ 	END IF
       END IF
 *
+*      IF (G_D.GT.0.0.AND.(RI.LE.R_IN.OR.RI.GE.R_EDGE)) THEN 
+*         IF (BODY(I).LT.1E-4) THEN
+*                CALL DAMPING(XI, XIDOT, FIRR, FD, I)
+*         END IF
+*      END IF
+*
 *       Include the corrector after first or second iteration.
-          DO 45 K = 1,3
+ 100  DO 45 K = 1,3
        	      DF = 2.0*F(K,I) - FIRR(K)
 	      FID = 6.0*FDOT(K,I)
 	      SUM = FID + FD(K)
@@ -300,6 +324,6 @@
           WRITE (0,*) TIME/TWOPI, NAME(I), ECC, RI, SEMI
           IESC = 1
       END IF
- 100  RETURN
+      RETURN
 *
       END

@@ -1,6 +1,6 @@
 .KEEP_STATE:
-FFLAGS = -pg -g -ffixed-line-length-none
-#FFLAGS = -ffixed-line-length-none -O3 -march=native
+#FFLAGS = -pg -g -ffpe-trap=invalid,zero,overflow -ffixed-line-length-none
+FFLAGS = -ffixed-line-length-none -O3 -march=sandybridge -static
 
 
 FC = gfortran
@@ -14,7 +14,13 @@ resolv.f search.f start.f stepi.f stepk.f steps.f \
 tstep.f xvpred.f zero.f get_precession.f damping.f \
 gas_potential.f gr.f rm_from_list.f \
 gas_potential_add_inner_pot.f get_outer_gravity.f \
-gas_potential_3d.f
+gas_potential_3d.f gas_potential_thommes08.f \
+gas_potential_full.f \
+gas_potential_red.f \
+gas_potential_sg.f \
+damping_a.f \
+gas_potential_j.f gas_potential_p.f gas_potential_s.f \
+load_data.f
 
 
 OBJECTS = $(SOURCE:.f=.o)

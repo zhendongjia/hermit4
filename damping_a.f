@@ -1,5 +1,5 @@
 
-      SUBROUTINE DAMPING(XI,XIDOT,FIRR,FD,I) 
+      SUBROUTINE DAMPING_A(XI,XIDOT,FIRR,FD,I) 
       INCLUDE 'commonp.h'
       INTEGER I
       REAL*8 XI(3), XIDOT(3), FIRR(3), FD(3)
@@ -7,7 +7,8 @@
      &       VCI(3), VCI_DOT(3), V_KEP, V_KEP_DOT,
      &       DELT_V(3), DELT_V_DOT(3), ABS_DELT_V, ABS_DELT_V_DOT,
      &       HI, DENS_S, DENS_G, HI_DOT, DENS_S_DOT, DENS_G_DOT,
-     &       T_TIDAL1_DOT, T_TIDAL2_DOT
+     &       T_TIDAL1_DOT, T_TIDAL2_DOT,
+     &       SEMI, SEMI_V, SEMI_V_DOT, SEMI_DOT 
 C
 C
       R12 = 0.0
@@ -23,20 +24,26 @@ C
       R12 = SQRT(R12)
       R12_DOT = R12_DOT/R12
       V12 = SQRT(V12)
-      V12_DOT = V12_DOT/V12
+      V12_DOT = V12_DOT/V12      
 C
       DO 2 K =1, 3
          THE(K) = XI(K)/R12
          THE_DOT(K) = XIDOT(K)/R12 - XI(K)*R12_DOT/R12**2
  2     CONTINUE
 C
-      HI = 0.05*R12**1.25*0.5
-      HI_DOT = HI*1.25*R12_DOT/R12
+       SEMI_V = 2.0/R12 - V12**2
+       SEMI_V_DOT = 2.0*(-1)/R12**2*R12_DOT
+     &         - 2*V12*V12_DOT  
+       SEMI = 1./SEMI_V
+       SEMI_DOT = (-1)*SEMI*SEMI_V_DOT/SEMI_V
+C     
+      HI = 0.05*SEMI**1.25*0.5
+      HI_DOT = HI*1.25*SEMI_DOT/SEMI
 C
-      V_KEP = R12**(-0.5) - 1.625*HI**2*R12**(-2.5)
-      V_KEP_DOT = -0.5*R12**(-1.5)*R12_DOT 
-     &     - 1.625*2*HI*HI_DOT*R12**(-2.5)
-     &     - 1.625*HI**2*(-2.5)*R12**(-3.5)*R12_DOT
+      V_KEP = SEMI**(-0.5) - 1.625*HI**2*SEMI**(-2.5)
+      V_KEP_DOT = -0.5*SEMI**(-1.5)*SEMI_DOT 
+     &     - 1.625*2*HI*HI_DOT*SEMI**(-2.5)
+     &     - 1.625*HI**2*(-2.5)*SEMI**(-3.5)*SEMI_DOT
 C      
       VCI(1) = - V_KEP*THE(2) 
       VCI(2) = V_KEP*THE(1)
@@ -61,8 +68,8 @@ C
       ABS_DELT_V_DOT = ABS_DELT_V_DOT/ABS_DELT_V
 C
       YEAR = TIME/TWOPI
-      DENS_S = DENS0*EXP(-YEAR/T_DEP)*R12**(-KG)
-      DENS_S_DOT = DENS_S*(-1/T_DEP)/TWOPI + DENS_S*(-KG)*R12_DOT/R12 
+      DENS_S = DENS0*EXP(-YEAR/T_DEP)*SEMI**(-KG)
+      DENS_S_DOT = DENS_S*(-1/T_DEP)/TWOPI + DENS_S*(-KG)*SEMI_DOT/SEMI 
       DENS_G = DENS_S/HI
       DENS_G_DOT = DENS_G*DENS_S_DOT/DENS_S - DENS_G*HI_DOT/HI
 C
@@ -71,14 +78,13 @@ C
       T_TIDAL1_DOT = T_TIDAL1(I)*(-DENS_G_DOT)/DENS_G
      &         + T_TIDAL1(I)*(-ABS_DELT_V_DOT)/ABS_DELT_V
 C
-      T_TIDAL2(I) = (1/BODY(I))*(1/(DENS_S*R12**2))*(HI/R12)**4
-     &                   *R12**1.5*0.2
+      T_TIDAL2(I) = (1/BODY(I))*(1/(DENS_S*SEMI**2))*(HI/SEMI)**4
+     &                   *SEMI**1.5*0.2
       T_TIDAL2_DOT = T_TIDAL2(I)*(-DENS_S_DOT)/DENS_S
-     &           + T_TIDAL2(I)*(-2*R12_DOT)/R12
+     &           + T_TIDAL2(I)*(-2*SEMI_DOT)/SEMI
      &           + T_TIDAL2(I)*(4*HI_DOT)/HI
-     &           + T_TIDAL2(I)*(-4*R12_DOT)/R12
-     &           + T_TIDAL2(I)*R12_DOT/R12
-     &           + T_TIDAL2(I)*(-V_KEP_DOT)/V_KEP    
+     &           + T_TIDAL2(I)*(-4*SEMI_DOT)/SEMI
+     &           + T_TIDAL2(I)*1.5*SEMI_DOT/SEMI    
 C
 C
       DO 5 K = 1, 3

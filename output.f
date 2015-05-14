@@ -105,11 +105,11 @@
              IF (THREE_D.EQ.0) THEN
                 WRITE (6,48) I, NAME(I), ECC(I), RI, SEMI(I), STEP(I),
      &               W, X(1,I), X(2,I), XDOT(1,I), XDOT(2,I),
-     &               T_TIDAL1(I)/T_DEP, T_TIDAL2(I)/T_DEP, RADIUS(I)*1.5E8, BODY(I),
-     &               EXP(-TIME/(TWOPI*T_DEP))
+     &               T_TIDAL1(I)/(TWOPI*T_DEP), T_TIDAL2(I)/(TWOPI*T_DEP),
+     &                RADIUS(I)*1.5E8, BODY(I), EXP(-TIME/(TWOPI*T_DEP)), R_EDGE
  48             FORMAT (' ORBIT    I NAM ECC R A S W', 2I4, 2X, F10.4, 2X,
      &               F10.4, 2X, F10.4, 1P, E10.2, 0P, 2X, F10.3, 4E10.1, 2X, 
-     &               E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4)
+     &               E15.4, 2X, E15.4, 2X, E10.3, E10.1, 2X, F10.4, 2X, F10.4)
              ELSE
                 XY = X(1,I)*XDOT(2,I) - X(2,I)*XDOT(1,I)
                 XZ = X(1,I)*XDOT(3,I) - X(3,I)*XDOT(1,I)
