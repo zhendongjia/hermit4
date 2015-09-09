@@ -30,7 +30,7 @@ C
          THE_DOT(K) = XIDOT(K)/R12 - XI(K)*R12_DOT/R12**2
  2     CONTINUE
 C
-      HI = 0.05*R12**1.25*0.5
+      HI = 0.05*R12**1.25 * 0.5
       HI_DOT = HI*1.25*R12_DOT/R12
 C
       V_KEP = R12**(-0.5) - 1.625*HI**2*R12**(-2.5)
@@ -80,6 +80,15 @@ C
      &           + T_TIDAL2(I)*R12_DOT/R12
      &           + T_TIDAL2(I)*(-V_KEP_DOT)/V_KEP    
 C
+C      T_UNIT = SQRT(1./2.)
+C      M_UNIT = 2.0
+C      V_UNIT = SQRT(2.)
+C      T_RATIO = T_TIDAL1(I)/(TWOPI*T_DEP)
+C      write(0,*) DENS_P/DENS_G, RADIUS(I), 1./(ABS_DELT_V*CD), T_TIDAL1(I)/(TWOPI*T_DEP)
+C     write(0,*) 1/BODY(I),1/(DENS_S*R12**2),(HI/R12)**4, R12**1.5/V_UNIT, T_TIDAL2(I)/(TWOPI*T_DEP)
+C      IF (T_RATIO.LT.1) THEN
+C         WRITE (0,*) ABS_DELT_V*V_UNIT, R12, T_RATIO
+C      END IF
 C
       DO 5 K = 1, 3
          FIRR(K) = FIRR(K) + (-DELT_V(K))*(1/T_TIDAL1(I)+1/T_TIDAL2(I))
