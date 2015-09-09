@@ -20,7 +20,6 @@
 *       Initialize the timer.
       CALL CPUTIM(CPU0)
 *
-      CALL LOAD_DATA
 *       Read start/restart indicator & CPU time.
       READ (5,*)  KSTART, TCOMP
 *
