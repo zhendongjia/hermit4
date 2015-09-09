@@ -13,9 +13,13 @@
 *
 *       Read input parameters.
       CALL INPUT
-*
 *       Set initial conditions: BODY(I), X(K,I), XDOT(K,I); I=1,N & K=1,3.
       CALL DATA
+*
+      IF (G_P.GE.2) THEN
+         CALL LOAD_DATA
+      END IF
+*
 *
 *       Introduce scaling factors DAYS, YRS, SU, RAU, SMU, TSTAR & VSTAR.
 *     CALL UNITS
