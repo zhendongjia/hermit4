@@ -1,3 +1,11 @@
-*.o
-*~
-.gitignore
+!*.py
+/*.o
+/*~
+/hermit4
+/hermit4_*
+/input
+/result/
+/asteroid_belt/
+/chondrule/
+/vega/
+/test/
