@@ -26,7 +26,7 @@
       AJ_UPPER_BOUND = AJ_VAR(AJ_LINE)
       AJ_STEP = (AJ_UPPER_BOUND - AJ_LOWER_BOUND) / (AJ_LINE - 1)
 
-
+      IF (N.GT.2) THEN
       OPEN(30, FILE='../as_f_fdot', status='old')
       AS_LINE=1
       DO WHILE(.TRUE.)
@@ -38,7 +38,7 @@
       AS_LOWER_BOUND = AS_VAR(1)
       AS_UPPER_BOUND = AS_VAR(AS_LINE)
       AS_STEP = (AS_UPPER_BOUND - AS_LOWER_BOUND) / (AS_LINE - 1)
-
+      END IF
 
 
       END
