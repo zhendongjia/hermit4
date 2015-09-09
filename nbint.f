@@ -164,26 +164,7 @@
    42     CONTINUE
 *
       IF (TWOGG.GT.0.AND.I.EQ.3.AND.TIME.LE.T_S*TWOPI) GO TO 100
-*
-*       Add gas disk gravity
-      IF (INT(G_P).EQ.1) THEN
-         IF (BODY(I).GE.1E-4) THEN
-                CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
-         ELSE
-                CALL GAS_POTENTIAL_FULL(XI, XIDOT, FIRR, FD)
-         END IF
-      END IF
-      IF (INT(G_P).EQ.2) THEN
-             IF (BODY(I).LE.1E-4) THEN
-                CALL GAS_POTENTIAL_P(XI,XIDOT,FIRR,FD)
-             END IF
-             IF (BODY(I).GT.5E-4) THEN
-                CALL GAS_POTENTIAL_J(XI, XIDOT, FIRR, FD)
-             END IF
-             IF (BODY(I).GT.1E-4.AND.BODY(I).LE.5E-4) THEN
-                CALL GAS_POTENTIAL_S(XI, XIDOT, FIRR, FD)
-             END IF
-      END IF                  
+*                 
 *      
 *       Add general relativity
       IF (G_R.GT.0.0) CALL GR(XI, XIDOT, FIRR, FD, I)
@@ -200,10 +181,34 @@
       ECC2 = (1.0 - RI/SEMI)**2 + RD**2/(SEMI*ZMB)
       ECC = SQRT(ECC2)
       IF (G_D.GT.0) THEN
-	IF (BODY(I).LT.1E-4) THEN
+        IF (BODY(I).LT.1E-4.AND.(RI.LT.R_IN.OR.RI.GT.R_EDGE)) THEN
 	   CALL DAMPING(XI, XIDOT, FIRR, FD, I)
  	END IF
       END IF
+*      
+*       Add gas disk gravity
+      IF (INT(G_P).EQ.1) THEN
+         IF (BODY(I).GE.1E-4) THEN
+                CALL GAS_POTENTIAL(XI,XIDOT,FIRR,FD)
+             ELSE
+                IF (RI.LT.R_IN.OR.RI.GT.R_EDGE) THEN
+                   CALL GAS_POTENTIAL_FULL(XI, XIDOT, FIRR, FD)
+                ELSE
+                   CALL GAS_POTENTIAL(XI, XIDOT, FIRR, FD)
+                END IF
+         END IF
+      END IF
+      IF (INT(G_P).EQ.2) THEN
+             IF (BODY(I).LE.1E-4) THEN
+                CALL GAS_POTENTIAL_P(XI,XIDOT,FIRR,FD)
+             END IF
+             IF (BODY(I).GT.5E-4) THEN
+                CALL GAS_POTENTIAL_J(XI, XIDOT, FIRR, FD)
+             END IF
+             IF (BODY(I).GT.1E-4.AND.BODY(I).LE.5E-4) THEN
+                CALL GAS_POTENTIAL_S(XI, XIDOT, FIRR, FD)
+             END IF
+      END IF       
 *
 *      IF (G_D.GT.0.0.AND.(RI.LE.R_IN.OR.RI.GE.R_EDGE)) THEN 
 *         IF (BODY(I).LT.1E-4) THEN
